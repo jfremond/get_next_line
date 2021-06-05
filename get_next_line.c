@@ -6,7 +6,7 @@
 /*   By: jfremond <jfremond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:52:57 by jfremond          #+#    #+#             */
-/*   Updated: 2020/11/02 14:33:18 by jfremond         ###   ########.fr       */
+/*   Updated: 2021/06/05 16:00:23 by jfremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ char	*ft_get_line(char *str)
 		return (0);
 	while (str[i] && str[i] != '\n')
 		i++;
-	if (!(line = (char *)malloc(sizeof(*line) * (i + 1))))
+	line = (char *)malloc(sizeof(*line) * (i + 1));
+	if (!line)
 		return (0);
 	i = 0;
 	while (str[i] && str[i] != '\n')
@@ -50,7 +51,8 @@ char	*ft_get_rest(char *str)
 		free(str);
 		return (0);
 	}
-	if (!(rest = (char *)malloc(sizeof(*rest) * ((ft_strlen(str) - i) + 1))))
+	rest = (char *)malloc(sizeof(*rest) * ((ft_strlen(str) - i) + 1));
+	if (!rest)
 		return (0);
 	i++;
 	j = 0;
@@ -61,20 +63,20 @@ char	*ft_get_rest(char *str)
 	return (rest);
 }
 
-int		get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	char		*buf;
 	static char	*rest;
 	int			to_read;
 
 	to_read = 1;
-	if (fd < 0 || BUFFER_SIZE <= 0 || !line)
-		return (-1);
-	if (!(buf = (char *)malloc(sizeof(*buf) * (BUFFER_SIZE + 1))))
+	buf = (char *)malloc(sizeof(*buf) * (BUFFER_SIZE + 1));
+	if (fd < 0 || BUFFER_SIZE <= 0 || !line || !buf)
 		return (-1);
 	while (!ft_newline(rest) && to_read != 0)
 	{
-		if ((to_read = read(fd, buf, BUFFER_SIZE)) == -1)
+		to_read = read(fd, buf, BUFFER_SIZE);
+		if (to_read == -1)
 		{
 			free(buf);
 			return (-1);

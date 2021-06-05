@@ -6,13 +6,13 @@
 /*   By: jfremond <jfremond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 18:03:20 by jfremond          #+#    #+#             */
-/*   Updated: 2020/11/02 14:44:02 by jfremond         ###   ########.fr       */
+/*   Updated: 2021/06/05 16:01:28 by jfremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		ft_newline(char *str)
+int	ft_newline(char *str)
 {
 	int	i;
 
@@ -72,7 +72,8 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	len_s1 = ft_strlen(s1);
 	len_s2 = ft_strlen(s2);
 	len = len_s1 + len_s2;
-	if (!(res = (char *)malloc(sizeof(*res) * (len + 1))))
+	res = (char *)malloc(sizeof(*res) * (len + 1));
+	if (!res)
 		return (0);
 	ft_memmove(res, s1, len_s1);
 	ft_memmove(res + len_s1, s2, len_s2);
